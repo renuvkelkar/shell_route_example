@@ -7,11 +7,7 @@ class NestedTasksScreen extends StatefulWidget {
   State<NestedTasksScreen> createState() => _NestedTasksScreenState();
 }
 
-class _NestedTasksScreenState extends State<NestedTasksScreen>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
+class _NestedTasksScreenState extends State<NestedTasksScreen> {
   final List<Map<String, dynamic>> _tasks = [
     {
       'id': 1,
@@ -97,111 +93,113 @@ class _NestedTasksScreenState extends State<NestedTasksScreen>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context); // Required for AutomaticKeepAliveClientMixin
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Tasks',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Tasks',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Create Task functionality would be implemented here',
-                    ),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              },
-              icon: const Icon(Icons.add),
-              label: const Text('New Task'),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        // Filters
-        Row(
-          children: [
-            Expanded(
-              child: DropdownButton<String>(
-                value: _selectedStatus,
-                isExpanded: true,
-                items: _statuses.map((String status) {
-                  return DropdownMenuItem<String>(
-                    value: status,
-                    child: Text(status),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedStatus = newValue!;
-                  });
-                },
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: DropdownButton<String>(
-                value: _selectedPriority,
-                isExpanded: true,
-                items: _priorities.map((String priority) {
-                  return DropdownMenuItem<String>(
-                    value: priority,
-                    child: Text(priority),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedPriority = newValue!;
-                  });
-                },
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: DropdownButton<String>(
-                value: _selectedProject,
-                isExpanded: true,
-                items: _projects.map((String project) {
-                  return DropdownMenuItem<String>(
-                    value: project,
-                    child: Text(
-                      project.length > 15
-                          ? '${project.substring(0, 15)}...'
-                          : project,
+              ElevatedButton.icon(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Create Task functionality would be implemented here',
+                      ),
+                      backgroundColor: Colors.green,
                     ),
                   );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedProject = newValue!;
-                  });
                 },
+                icon: const Icon(Icons.add),
+                label: const Text('New Task'),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        // Tasks List
-        Expanded(
-          child: ListView.builder(
-            itemCount: _filteredTasks.length,
-            itemBuilder: (context, index) {
-              final task = _filteredTasks[index];
-              return _buildTaskCard(context, task);
-            },
+            ],
           ),
-        ),
-      ],
+          const SizedBox(height: 16),
+          // Filters
+          Row(
+            children: [
+              Expanded(
+                child: DropdownButton<String>(
+                  value: _selectedStatus,
+                  isExpanded: true,
+                  items: _statuses.map((String status) {
+                    return DropdownMenuItem<String>(
+                      value: status,
+                      child: Text(status),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedStatus = newValue!;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: DropdownButton<String>(
+                  value: _selectedPriority,
+                  isExpanded: true,
+                  items: _priorities.map((String priority) {
+                    return DropdownMenuItem<String>(
+                      value: priority,
+                      child: Text(priority),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedPriority = newValue!;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: DropdownButton<String>(
+                  value: _selectedProject,
+                  isExpanded: true,
+                  items: _projects.map((String project) {
+                    return DropdownMenuItem<String>(
+                      value: project,
+                      child: Text(
+                        project.length > 15
+                            ? '${project.substring(0, 15)}...'
+                            : project,
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedProject = newValue!;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          // Tasks List
+          Expanded(
+            child: ListView.builder(
+              itemCount: _filteredTasks.length,
+              itemBuilder: (context, index) {
+                final task = _filteredTasks[index];
+                return _buildTaskCard(context, task);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 

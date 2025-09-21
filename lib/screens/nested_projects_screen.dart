@@ -7,11 +7,7 @@ class NestedProjectsScreen extends StatefulWidget {
   State<NestedProjectsScreen> createState() => _NestedProjectsScreenState();
 }
 
-class _NestedProjectsScreenState extends State<NestedProjectsScreen>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
+class _NestedProjectsScreenState extends State<NestedProjectsScreen> {
   final List<Map<String, dynamic>> _projects = [
     {
       'id': 1,
@@ -94,95 +90,97 @@ class _NestedProjectsScreenState extends State<NestedProjectsScreen>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context); // Required for AutomaticKeepAliveClientMixin
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Projects',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Projects',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Create Project functionality would be implemented here',
+              ElevatedButton.icon(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Create Project functionality would be implemented here',
+                      ),
+                      backgroundColor: Colors.green,
                     ),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              },
-              icon: const Icon(Icons.add),
-              label: const Text('New Project'),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        // Filters
-        Row(
-          children: [
-            Expanded(
-              child: DropdownButton<String>(
-                value: _selectedStatus,
-                isExpanded: true,
-                items: _statuses.map((String status) {
-                  return DropdownMenuItem<String>(
-                    value: status,
-                    child: Text(status),
                   );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedStatus = newValue!;
-                  });
                 },
+                icon: const Icon(Icons.add),
+                label: const Text('New Project'),
               ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: DropdownButton<String>(
-                value: _selectedPriority,
-                isExpanded: true,
-                items: _priorities.map((String priority) {
-                  return DropdownMenuItem<String>(
-                    value: priority,
-                    child: Text(priority),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedPriority = newValue!;
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        // Projects Grid
-        Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 1.2,
-            ),
-            itemCount: _filteredProjects.length,
-            itemBuilder: (context, index) {
-              final project = _filteredProjects[index];
-              return _buildProjectCard(context, project);
-            },
+            ],
           ),
-        ),
-      ],
+          const SizedBox(height: 16),
+          // Filters
+          Row(
+            children: [
+              Expanded(
+                child: DropdownButton<String>(
+                  value: _selectedStatus,
+                  isExpanded: true,
+                  items: _statuses.map((String status) {
+                    return DropdownMenuItem<String>(
+                      value: status,
+                      child: Text(status),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedStatus = newValue!;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: DropdownButton<String>(
+                  value: _selectedPriority,
+                  isExpanded: true,
+                  items: _priorities.map((String priority) {
+                    return DropdownMenuItem<String>(
+                      value: priority,
+                      child: Text(priority),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedPriority = newValue!;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          // Projects Grid
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 1.2,
+              ),
+              itemCount: _filteredProjects.length,
+              itemBuilder: (context, index) {
+                final project = _filteredProjects[index];
+                return _buildProjectCard(context, project);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
