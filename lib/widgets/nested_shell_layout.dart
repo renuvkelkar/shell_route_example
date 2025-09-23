@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class NestedShellLayout extends StatelessWidget {
-  final Widget child;
+  const NestedShellLayout({required this.child, super.key});
 
-  const NestedShellLayout({super.key, required this.child});
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -52,28 +52,28 @@ class NestedShellLayout extends StatelessWidget {
                         context,
                         icon: Icons.dashboard,
                         title: 'Dashboard',
-                        path: '/nested',
+                        route: '/nested',
                         isSelected: _isSelected(context, '/nested'),
                       ),
                       _buildNavItem(
                         context,
                         icon: Icons.analytics,
                         title: 'Analytics',
-                        path: '/nested/analytics',
+                        route: '/nested/analytics',
                         isSelected: _isSelected(context, '/nested/analytics'),
                       ),
                       _buildNavItem(
                         context,
                         icon: Icons.people,
                         title: 'Users',
-                        path: '/nested/users',
+                        route: '/nested/users',
                         isSelected: _isSelected(context, '/nested/users'),
                       ),
                       _buildNavItem(
                         context,
                         icon: Icons.settings,
                         title: 'Settings',
-                        path: '/nested/settings',
+                        route: '/nested/settings',
                         isSelected: _isSelected(context, '/nested/settings'),
                       ),
                       const Divider(),
@@ -81,14 +81,14 @@ class NestedShellLayout extends StatelessWidget {
                         context,
                         icon: Icons.folder,
                         title: 'Projects',
-                        path: '/nested/projects',
+                        route: '/nested/projects',
                         isSelected: _isSelected(context, '/nested/projects'),
                       ),
                       _buildNavItem(
                         context,
                         icon: Icons.task,
                         title: 'Tasks',
-                        path: '/nested/tasks',
+                        route: '/nested/tasks',
                         isSelected: _isSelected(context, '/nested/tasks'),
                       ),
                     ],
@@ -136,11 +136,16 @@ class NestedShellLayout extends StatelessWidget {
     );
   }
 
+  bool _isSelected(BuildContext context, String route) {
+    final currentPath = GoRouterState.of(context).uri.path;
+    return currentPath == route;
+  }
+
   Widget _buildNavItem(
     BuildContext context, {
     required IconData icon,
     required String title,
-    required String path,
+    required String route,
     required bool isSelected,
   }) {
     return Container(
@@ -164,13 +169,8 @@ class NestedShellLayout extends StatelessWidget {
         selected: isSelected,
         selectedTileColor: Theme.of(context).colorScheme.primaryContainer,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        onTap: () => context.go(path),
+        onTap: () => context.go(route),
       ),
     );
-  }
-
-  bool _isSelected(BuildContext context, String path) {
-    final currentPath = GoRouterState.of(context).uri.path;
-    return currentPath == path;
   }
 }

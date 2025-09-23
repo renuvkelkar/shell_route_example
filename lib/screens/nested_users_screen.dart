@@ -77,104 +77,98 @@ class _NestedUsersScreenState extends State<NestedUsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Users Management',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Users Management',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
               ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Add User functionality would be implemented here',
-                      ),
-                      backgroundColor: Colors.green,
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Add User functionality would be implemented here',
                     ),
-                  );
-                },
-                icon: const Icon(Icons.add),
-                label: const Text('Add User'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // Search and Filter Row
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Search users...',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(),
+                    backgroundColor: Colors.green,
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      _searchQuery = value;
-                    });
-                  },
+                );
+              },
+              icon: const Icon(Icons.add),
+              label: const Text('Add User'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        // Search and Filter Row
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                decoration: const InputDecoration(
+                  hintText: 'Search users...',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(),
                 ),
-              ),
-              const SizedBox(width: 16),
-              DropdownButton<String>(
-                value: _selectedRole,
-                items: _roles.map((String role) {
-                  return DropdownMenuItem<String>(
-                    value: role,
-                    child: Text(role),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
+                onChanged: (value) {
                   setState(() {
-                    _selectedRole = newValue!;
+                    _searchQuery = value;
                   });
                 },
               ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          // Users List
-          Expanded(
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Users (${_filteredUsers.length})',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+            ),
+            const SizedBox(width: 16),
+            DropdownButton<String>(
+              value: _selectedRole,
+              items: _roles.map((String role) {
+                return DropdownMenuItem<String>(value: role, child: Text(role));
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedRole = newValue!;
+                });
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        // Users List
+        Expanded(
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Users (${_filteredUsers.length})',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: _filteredUsers.length,
-                        itemBuilder: (context, index) {
-                          final user = _filteredUsers[index];
-                          return _buildUserCard(context, user);
-                        },
-                      ),
+                  ),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: _filteredUsers.length,
+                      itemBuilder: (context, index) {
+                        final user = _filteredUsers[index];
+                        return _buildUserCard(context, user);
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

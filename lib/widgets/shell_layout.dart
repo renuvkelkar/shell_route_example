@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ShellLayout extends StatelessWidget {
-  final Widget child;
+  const ShellLayout({required this.child, super.key});
 
-  const ShellLayout({super.key, required this.child});
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,9 @@ class ShellLayout extends StatelessWidget {
           // Navigation Sidebar
           NavigationRail(
             selectedIndex: _getSelectedIndex(context),
-            onDestinationSelected: (index) =>
-                _onDestinationSelected(context, index),
+            onDestinationSelected: (index) {
+              _onDestinationSelected(context, index);
+            },
             labelType: NavigationRailLabelType.all,
             destinations: const [
               NavigationRailDestination(
@@ -67,7 +68,9 @@ class ShellLayout extends StatelessWidget {
           ? BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               currentIndex: _getSelectedIndex(context),
-              onTap: (index) => _onDestinationSelected(context, index),
+              onTap: (index) {
+                _onDestinationSelected(context, index);
+              },
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_outlined),
@@ -75,7 +78,7 @@ class ShellLayout extends StatelessWidget {
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline),
+                  icon: Icon(Icons.person_outlined),
                   activeIcon: Icon(Icons.person),
                   label: 'Profile',
                 ),
@@ -85,7 +88,7 @@ class ShellLayout extends StatelessWidget {
                   label: 'Settings',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.info_outline),
+                  icon: Icon(Icons.info_outlined),
                   activeIcon: Icon(Icons.info),
                   label: 'About',
                 ),
@@ -106,7 +109,7 @@ class ShellLayout extends StatelessWidget {
   }
 
   int _getSelectedIndex(BuildContext context) {
-    final String location = GoRouterState.of(context).uri.path;
+    final location = GoRouterState.of(context).uri.path;
     switch (location) {
       case '/':
         return 0;
